@@ -28,7 +28,7 @@
   display: none;
 }
 
-.explore-menu-list-item img{
+.explore-menu-text{
   width: 7.5vw;
   min-width: 80px;
   cursor: pointer;
@@ -54,3 +54,14 @@
   border: 4px solid tomato;
   padding: 2px;
 }
+@media (max-width: 1050px) {
+  .explore-menu-text {
+    width: 100%;
+    font-size: 14px;
+  }
+} 
+@media (max-width: 750px) {
+  .explore-menu-text {
+    width: 65%;
+  }
+} 
