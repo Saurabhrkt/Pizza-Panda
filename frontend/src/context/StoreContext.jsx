@@ -21,7 +21,7 @@ const getTotalCartAmount = () => {
   let total = 0;
   for (const item in cartItem) {
     if (cartItem[item] > 0) {
-      const foodItem = food_list.find(item => item._id === item);
+      const foodItem = food_list.find((product) => product._id === item);
       if (foodItem) {
         total += foodItem.price * cartItem[item];
       }
@@ -34,7 +34,8 @@ const getTotalCartAmount = () => {
     cartItem,
     setCartItem,
     addToCart,
-    removeFromCart
+    removeFromCart,
+    getTotalCartAmount
   }
   return (
     <StoreContext.Provider value={contextValue}>{props.children}</StoreContext.Provider>
