@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Cart from "./pages/Cart/Cart";
-import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
 import Footer from "./components/Footer/Footer";
-import LoginPopUp from "./components/LogInPopUp/LoginPopUp";
+import { PageLoader, ModalLoader } from "./components/CustomLoader/CustomLoader.jsx";
+const Home = lazy(() => import("./pages/Home/Home"));
+const Cart = lazy(() => import("./pages/Cart/Cart"));
+const PlaceOrder = lazy(() => import("./pages/PlaceOrder/PlaceOrder"));
+const LoginPopUp = lazy(() => import("./components/LogInPopUp/LoginPopUp"));
+
 const App = () => {
   const [showLoginPopUp, setShowLoginPopUp] = useState(false);
+
   return (
     <>
-    {showLoginPopUp?<LoginPopUp setShowLoginPopUp={setShowLoginPopUp} />:null}
+      {showLoginPopUp && (
+        <Suspense fallback={<ModalLoader message="Loading login form..." />}>
+          <LoginPopUp setShowLoginPopUp={setShowLoginPopUp} />
+        </Suspense>
+      )}
       <div className="app">
-        <Navbar setShowLoginPopUp={setShowLoginPopUp}/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/place-order" element={<PlaceOrder />} />
-        </Routes>
+        <Navbar setShowLoginPopUp={setShowLoginPopUp} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/place-order" element={<PlaceOrder />} />
+          </Routes>
+        </Suspense>
       </div>
+      
       <Footer />
     </>
   );
